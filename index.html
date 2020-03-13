@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="eng">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Rafael Pinheiro">
+    <title>Redis chalange JS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <script src="redis.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <h1 class="navbar-brand" id="top">Redis Simulator</h1>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#home">Home <span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#setKey">Set Key <span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#getKey">Get Key <span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#zAddKey">Z Add<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#size">Size<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#del">Delete<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#incr">Increment<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#card">Card<span class="sr-only"></span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="#range">Range<span class="sr-only"></span></a>
+          </li>
+      </div>
+    </nav>
+    <div class="container">
+      <div id="home">
+        <h2 class="sub-title">Redis simulator</h2>
+        <h1 class="title" >Rafael Pinheiro</h1>
+      </div>
+      <form>
+        <div class="form-group">
+          <h2 id="setKey">Set Key</h2>
+          <label>Name</label>
+          <input type="text" id="set-key-name" class="form-control" placeholder="Key name">
+          <label>Value</label>
+          <input type="text" id="set-key-value" class="form-control" placeholder="Key value">
+          <label>Time</label>
+          <input type="text" id="time-value" class="form-control" placeholder="Key value">
+          <label>Select</label>
+          <select id="time-type" class="form-control">
+            <option selected value="seconds">Seconds</option>
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+            <option value="days">Days</option>
+            <option value="months">Months</option>
+            <option value="years">Years</option>
+          </select>
+        </div>
+        <button onclick="redisSet()" class="btn btn-success" type="button" name="button">Set Key</button>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="getKey">Get Key</h2>
+          <label>Name</label>
+          <input type="text" id="get-key-name" class="form-control" placeholder="Key name">
+        </div>
+        <button onclick="redisGet()" class="btn btn-success" type="button" name="button">Get Key</button>
+        <div class="form-group">
+          <label>Value</label>
+          <p id="get-key-result"></p>
+        </div>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="zAddKey">Z Add</h2>
+          <label>Name</label>
+          <input type="text" id="zadd-key-name" class="form-control" placeholder="Key name">
+        </div>
+        <div class="form-group">
+          <label>Value</label>
+          <input type="text" id="zadd-key-value" class="form-control" placeholder="Key value">
+        </div>
+        <div class="form-group">
+          <label>Score</label>
+          <input type="number" id="zadd-key-score" class="form-control" placeholder="Key value">
+        </div>
+        <button onclick="redisZAdd()" class="btn btn-success" type="button" name="button">Z Add</button>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="size">Get Size</h2>
+        </div>
+        <div class="form-group">
+          <label>Value</label><div id="size-key-result"></div>
+        </div>
+        <button onclick="redisSize()" class="btn btn-success" type="button" name="button">Get Size</button>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="card">Get card</h2>
+          <label>Name</label>
+          <input type="text" id="card-key-name" class="form-control" placeholder="Key name">
+        </div>
+        <button onclick="redisCard()" class="btn btn-success" type="button" name="button">Get Key</button>
+        <div class="form-group">
+          <label>Value</label>
+          <p id="card-key-result"></p>
+        </div>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="incr">Increment</h2>
+          <label>Name</label>
+          <input type="text" id="incr-key-name" class="form-control" placeholder="Key name">
+        </div>
+        <button onclick="redisIncr()" class="btn btn-success" type="button" name="button">Get Key</button>
+        <div class="form-group">
+          <label>Number: </label>
+          <p id="incr-key-result"></p>
+        </div>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="del">Delete</h2>
+          <label>Name</label>
+          <input type="text" id="del-key-name" class="form-control" placeholder="Key name">
+        </div>
+        <button onclick="redisDel()" class="btn btn-success" type="button" name="button">Delete Key</button>
+        <div class="form-group">
+          <p id="del-key-result"></p>
+        </div>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="rank">Rank</h2>
+          <label>Name</label>
+          <input type="text" id="rank-key-name" class="form-control" placeholder="Key name">
+          <label>Value</label>
+          <input type="text" id="rank-key-value" class="form-control" placeholder="Key value">
+        </div>
+        <button onclick="redisRank()" class="btn btn-success" type="button" name="button">Get rank</button>
+        <div class="form-group">
+          <p id="rank-key-result"></p>
+        </div>
+      </form>
+      <form>
+        <div class="form-group">
+          <h2 id="range">Range</h2>
+          <label>Name</label>
+          <input type="text" id="range-key-name" class="form-control" placeholder="Key name">
+          <label>Value</label>
+          <input type="number" id="range-key-min" class="form-control" placeholder="Key name">
+          <label>to:</label>
+          <input type="number" id="range-key-max" class="form-control" placeholder="Key name">
+        </div>
+        <button onclick="redisRange()" class="btn btn-success" type="button" name="button">Get range</button>
+        <div class="form-group">
+          <p id="range-key-result"></p>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    function redisSet() {
+      const keyName = document.getElementById("set-key-name").value;
+      const keyValue = document.getElementById("set-key-value").value; 
+      const duration = Number(document.getElementById("time-value").value);
+      duration === 0 ? set(keyName, keyValue) : setWithDuration(keyName, keyValue, convertData());
+    }
+    function redisGet() {
+      const keyName = document.getElementById("get-key-name").value;
+      document.getElementById("get-key-result").innerHTML  = get(keyName);
+    }
+    function redisZAdd() {
+      const keyName = document.getElementById("zadd-key-name").value;
+      const keyValue = document.getElementById("zadd-key-value").value;
+      const keyScore = Number(document.getElementById("zadd-key-score").value);
+      zAdd(keyName, keyValue, keyScore);
+    }
+    function redisSize() {
+      document.getElementById("size-key-result").innerHTML = size();
+    }
+    function redisCard() {
+      const keyName = document.getElementById("card-key-name").value;
+      document.getElementById("card-key-result").innerHTML  = card(keyName);
+    }
+    function redisIncr() {
+      const keyName = document.getElementById("incr-key-name").value;
+      document.getElementById("incr-key-result").innerHTML  = increment(keyName);
+    }
+    function redisDel() {
+      const keyName = document.getElementById("del-key-name").value;
+      document.getElementById("del-key-result").innerHTML  = deleteKey(keyName);
+    }
+    function redisRank() {
+      const value = document.getElementById("rank-key-value").value;
+      const name = document.getElementById("rank-key-name").value;
+      document.getElementById("rank-key-result").innerHTML  = rank(name,value);
+    }
+    function redisRange() {
+      const reach = {
+        min: Number(document.getElementById("range-key-min").value),
+        max: Number(document.getElementById("range-key-max").value)
+      }
+      const name = document.getElementById("range-key-name").value;
+      document.getElementById("range-key-result").innerHTML = range(reach,name);
+    }
+    function convertData() {
+      const selected = document.getElementById("time-type");
+      const timeType = selected.options[selected.selectedIndex].value
+      const timeValue = Number(document.getElementById("time-value").value);
+      let currentDate = new Date();
+      if(timeType === "seconds") {
+        return new Date(currentDate.setSeconds(currentDate.getSeconds() + timeValue));
+      } else if(timeType === "minutes") {
+        return new Date(currentDate.setMinutes(currentDate.getMinutes() + timeValue));
+      } else if(timeType === "hours") {
+        return new Date(currentDate.setHours(currentDate.getHours() + timeValue));
+      } else if(timeType === "days") {
+        return new Date(currentDate.setDate(currentDate.getDate() + timeValue));
+      } else if(timeType === "months") {
+        return new Date(currentDate.setMonth(currentDate.getMonth() + timeValue));
+      } else if(timeType === "years") {
+        return new Date(currentDate.setFullYear(currentDate.getFullYear() + timeValue));
+      }
+    }
+  </script>
+</html>
